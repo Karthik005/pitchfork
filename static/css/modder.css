@@ -1,0 +1,19 @@
+@font-face {
+    font-family: Zekton;
+    src: url('../fonts/zekton.ttf');
+}
+
+
+
+.navbar .navbar-header > .navbar-brand{
+	font-family: Zekton;
+	font-size: 150%;
+	color: #6ba2a2;
+}
+
+.navbar .navbar-header > .navbar-brand::after{
+	font-family: FontAwesome;
+	color: white;
+	content: "  \f126";
+}
+
