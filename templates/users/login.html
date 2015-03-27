@@ -2,14 +2,20 @@
 
 {% load staticfiles %}
 
+
+
 {% with headval="login" %}
 
 {% block styleadd %}
 <link rel="stylesheet" type="text/css" href="{% static "users/css/login.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "css/dist/prettyCheckable.css" %}" />
+
 {% endblock %}
 
 {% block scriptadd %}
 <script src="{% static "users/js/login_validate.js" %}"></script>
+<script src="{% static "css/dit/prettyCheckable.min.js" %}"></script>
+
 {% endblock %}
 
 {% block addbody %}
@@ -20,7 +26,7 @@
         <input type="text" id="username" name="username" class="form-control" placeholder="Username">
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="password"  name="password" class="form-control" placeholder="Password">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-default btn-block hvr-shutter-out-horizontal" type="submit">Sign in</button>
       </form>
       <div class="message"></div>
       </div>

@@ -7,10 +7,10 @@ from django.contrib.auth import models as moder
     
 
 class Programming_language(models.Model):
-    prog_lang_name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200, unique=True)
     
     def __str__(self):
-        return str(self.prog_lang_name)
+        return str(self.name)
 
     
 class Detail(models.Model):

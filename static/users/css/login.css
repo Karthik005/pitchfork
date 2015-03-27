@@ -1,7 +1,16 @@
+.btn {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+
+
+
 body {
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #eee;
+  background-image: url("../images/background.png");
+  background-repeat: repeat;
 }
 
 .form-signin {
@@ -9,6 +18,13 @@ body {
   padding: 15px;
   margin: 0 auto;
   margin-top: 10%;
+  background: rgb(0,0,0); /* for IE */
+  background: rgba(0,0,0,0.75);
+  color: white;
+}
+
+.form-signin input{
+  margin-bottom: 10px;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
@@ -29,13 +45,11 @@ body {
 .form-signin .form-control:focus {
   z-index: 2;
 }
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+
+.text-warning {
+  color: #FF8080 !important;
 }
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+
+.hvr-shutter-out-horizontal:before{
+  background-color: #05AEAE;
 }

@@ -3,15 +3,17 @@ $(document).ready(function(){
 		e.preventDefault();
 
 		$('#loginform').children('p').each(function(){
-				$(this).slideUp("normal", function() { $(this).remove(); } );
+				$(this).stop().slideUp("normal", function() {} );
 			
 		});
 
 		$flag=false;
 		$('#loginform').children('input').each(function(){
 			if (!$(this).val()){
+				if(!$(this).next().is('p')){
 				$(this).after('<p type="notfilled" class="text-center text-warning" style="display: none">The above field is required.</p>');
-				$(this).next().slideDown();
+				}
+				$(this).next().stop().slideDown();
 				$flag=true;
 				}
 		});
@@ -21,12 +23,15 @@ $(document).ready(function(){
 
 		$.post($urlpath+"login_validate", $('#loginform').serializeArray(),  function(data){
 			if (data == "true"){
-				window.location.href = "http://"+$.url('hostname')+"/redirect/"+$.url('?from');
+				window.location.href = "http://"+window.location.host+"/redirect/?from="+$.url('?from');
 				return true;
 			}
 			else if (data == "false"){
-				$('#loginform> button').after('<p type="wronginp" class="text-center" style="display: none">Incorrect username or password.</p>');
-				$('#loginform> button').next().slideDown();
+				if(!$('#loginform> button').next().is('p')){
+				$('#loginform> button').after('<p type="wronginp" class="text-center text-warning" style="display: none">Incorrect username or password.</p>');
+				}
+				$('#loginform> button').next().stop().slideDown();
+				return false;
 			}
 		});
 	});

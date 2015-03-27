@@ -6,22 +6,108 @@
 
 {% block styleadd %}
 <link rel="stylesheet" type="text/css" href="{% static "users/css/register.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "css/dist/prettyCheckable.css" %}" />
 {% endblock %}
 
 {% block scriptadd %}
 <script src="{% static "users/js/register_validate.js" %}"></script>
+<script src="{% static "css/dist/prettyCheckable.min.js" %}"></script>
+
 {% endblock %}
 
+
+
 {% block addbody %}
-   <div class="container">
-    <form id="registerform" class="form-signin" method="post" novalidate="novalidate">{% csrf_token %}
-        <h2 class="form-signin-heading">Login</h2>
-        <label for="inputUsername" class="sr-only">Username</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Username">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="password"  name="password" class="form-control" placeholder="Password">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+{% if loggedin %}
+    
+    <div class="container">
+      <form id="registerform" class="form-signup" method="post" novalidate="novalidate">
+      <h2 class="text-center">You have already registered!</h2>
+      <a href="../logout?form=" class=" btn btn-lg btn-default center-block hvr-sweep-to-top" role="button" style="width: 20%">Logout</a>
+      <h2 class="text-center"> to create another profile </h2>
       </form>
-      <div class="message"></div>
-      </div>
+    </div>
+
+{% endif %}
+
+{% if not loggedin %}
+
+   <div class="container">
+    <form id="registerform" class="form-signup" method="post" novalidate="novalidate">{% csrf_token %}
+    	<h2>Register</h2>
+            <fieldset>      
+              <legend>Login Information</legend>
+              <div class='form-group'>
+                <div class='col-sm-12'>
+                  <label for="inputUsername">Username</label>
+                  <input class="form-control" id="username" name="username" required="true" size="30" type="text" />
+                </div>
+              </div>
+              <div class='form-group'>
+              <div id="passwords">
+                <div class='col-sm-6'>
+                  <label for="inputPassword">Password</label>
+                  <input class="form-control" id="password" name="password" size="30" type="password" />
+                </div>
+                <div class='col-sm-6'>
+                  <label for="inputPasswordConfirmation">Confirm Password</label>
+                  <input class="form-control" id="confirmpassword" name="confirmpassword" size="30" type="password" />
+                </div>
+              </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Personal Information</legend>
+              <div class='form-group'>
+                <div class='col-sm-6'>
+                  <label for="inputFirstName">First name</label>
+                  <input class="form-control required" id="firstname" name="firstname" required="true" size="30" type="text" />
+                </div>
+                <div class='col-sm-6'>
+                  <label for="inputLastName">Last name</label>
+                  <input class="form-control" id="firstname" name="lastname" required="true" size="30" type="text" />
+                </div>
+              </div>
+              <div class='form-group'>
+                <div class='col-sm-6'>
+                  <label for="inputEmail">Email</label>
+                  <input class="form-control required email" id="email" name="email" required="true" size="30" type="text" />
+                </div>
+                <div class="col-sm-6">
+                  <label for="inputDOB">Date of Birth</label>
+                  <input class="form-control required date" id="dob" name="dob" required="true" size="30" type="date" />
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Proficiency</legend>
+              <div class='form-group'>
+                <div class='col-sm-12'>
+                  <label for="inputEducation">Educational qualifications</label>
+                  <textarea rows="5" class="form-control" name="education" id="education" form="registerform" maxlength="1000" ></textarea>
+                </div>
+                <div class='col-sm-12'>
+                  <label for="inputExperience">Professional experience</label>
+                  <textarea rows="5" class="form-control" name="experience" id="experience" form="registerform" maxlength="1000" ></textarea>
+                </div>
+                  <div class='col-sm-12'>
+                    <label for="inputProglangs">Programming languages known</label>
+                  </div>
+                  <div class='col-sm-12'>
+                    {% for prog_lang in prog_lang_list %}
+                    	<input class="checkbox-inline" type="checkbox" id="proglang{{forloop.counter}}" name="proglangs" value="{{ prog_lang.name }}" data-label="{{ prog_lang.name }}"/>
+                    {% endfor %}
+                </div>
+              </div>
+            </fieldset>
+        <button class="btn btn-lg btn-default btn-block hvr-sweep-to-top" type="submit">Sign up</button>
+	</form>
+	</div>
+
+{% endif %}
 {% endblock %}
+
+
+
+
+{% endwith %}
