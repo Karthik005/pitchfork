@@ -1,87 +1,201 @@
 $(document).ready(function(){
+	$flag = true;
 
-	$('#registerform').find('input').each(function(){
-		if ($(this).attr('type')=="checkbox"){
-			$(this).prettyCheckable();
-		}
-	});
+	//icons
+	var checker = '<i class="fa fa-check"></i>';
+	var closer = '<i class="fa fa-close"></i>';
 
-	$('#username').keyup(function(){
-		var inputUsername = $(this).val();
-		if (inputUsername.val()!=""){
-			$.post()
-		}
-	});
+	//error messages
+	var usernametaken='<p type="usertaken" class="text-center text-warning" style="display: none">This username is taken.</p>';
+	var passwordsno = '<p type="notmatched" class="text-center text-warning" style="display: none">Passwords did not match.</p>';
+	var invalidemail = '<p type="invalid" class="text-center text-warning" style="display: none">Invalid Email.</p>'
+	var emailtaken = '<p type="emailtaken" class="text-center text-warning" style="display: none">This email id has been registered.</p>'
+	var emptyfields = '<h4 id="emptyfields" type="emptyfields" class="text-center text-warning">All fields are required.</h4>'
+
+//helper functions
+
 	var wipepass = function(){
 		$('#password').val("");
 		$('#confirmpassword').val("");
+	};
+
+	var clear = function(obj){
+		$(obj).siblings('p').stop().slideUp(function(){
+			$(this).remove();
+		});
+		$(obj).siblings('i').remove();
 	};
 
 	var rollup = function(){
 		$('html, body').stop().animate({
 				scrollTop: 0
 			}, 700, function(){});
-	}
-
-	var checkpass = function(){
-		if ($('#password').val() != $('#confirmpassword').val()  ){
-			alert("afksdjh");
-			$('#password, #confirmpassword').each(function(){
-				$(this).after('<p type="notmatched" class="text-center text-warning" style="display: none">Passwords did not match.</p>');
-				$(this).next().stop().slideDown();
-			});
-			wipepass();
-			rollup();
-			return false;
-		}
 	};
 
-	checkpass();
+	var rolltothis = function(obj){
+		$('html, body').animate({ scrollTop: $(obj).offset().top-100 }, 1000);
+	};
 
+	var checkpass = function(){
+		if ($('#password').val() != $('#confirmpassword').val() && $('#confirmpassword') != ""){
+			return false;
+		}
+		else {return true;}
+	};
+
+	var slidedown = function(obj){
+		$(obj).siblings('p').slideDown();
+	};
+
+	var chekcdate = function(){
+
+	}
+
+//prettycheckable
+	$('#registerform').find('input').each(function(){
+		if ($(this).attr('type')=="checkbox"){
+			$(this).prettyCheckable();
+		}
+	});
+
+//datepicker
+	$("#dob").datepicker({
+		inline: true,
+		changeMonth: true,
+		changeYear: true,
+	    maxDate: "-16Y",
+	    minDate: "-100Y",
+	    yearRange: "-100:-16",
+	    dateFormat: 'dd/mm/yy'
+	});
+
+
+//urlpath to page
+	$urlpath = $(location).attr('href');
+
+
+//username availability check
+	window.flag = false;
+
+	$('#username').on('change', function(){
+		clear($('#username'));
+		var inputUsername = $(this).val();
+		if (inputUsername!=""){
+			//alert($(this).val());
+			$.get($urlpath+"register_validate?username="+inputUsername,  function(data){
+			if (data=="true"){
+					$('#username').after(checker);
+					window.user_flag = false;
+				}
+			else if (data == "false"){
+					$('#username').after(usernametaken+closer);
+					slidedown('#username');
+					window.user_flag = true;
+				}
+			});
+			}
+		});
+
+
+//email tester
+	function IsEmail(email) {
+	  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	  return regex.test(email);
+	}
+
+	var emailcheck = function(){$("#email").on('change', function(){
+		clear("#email");
+		var inputmail = $(this).val();
+		if (inputmail && !IsEmail(inputmail)){
+			$(this).after(invalidemail+closer);
+			slidedown("#email");
+			window.mail_flag = true;
+		}
+		else if (inputmail) {
+			$.get($urlpath+"register_validate?email="+inputmail,  function(data){
+			if (data=="true"){
+					$('#email').after(checker);
+					window.mail_flag = false;
+				}
+			else if (data == "false"){
+					$('#email').after(emailtaken+closer);
+					slidedown('#email');
+					window.mail_flag = true;
+				}
+			});
+		}
+	});
+	};
+
+	emailcheck();
+
+//password matcher
+	$("#confirmpassword").change(function(){
+		clear("#confirmpassword");
+		clear("#password");
+		if (!checkpass()){
+			wipepass();
+			$(this).after(passwordsno+closer);
+			slidedown("#confirmpassword");
+			$('#password').after(passwordsno+closer);
+			slidedown("#password");
+			window.pswd_flag = true;
+			}
+		else{
+			$(this).after(checker);
+			$('#password').after(checker);
+			window.pswd_flag = false;
+		}
+	});
+
+//rest checker
+	$("input, textarea").change(function(){
+		if (!($(this).attr('id') == "username" || 
+			$(this).attr('id') =="password"||
+			$(this).attr('id') =="confirmpassword"||
+			$(this).attr('id') =="email") &&
+			$(this).attr('type')!="checkbox") {
+		clear("#"+$(this).attr('id'));
+		if ($(this).val()){
+			$(this).after(checker);
+		}
+	}
+	});
+
+
+//final check and ajax submit
 
 	$('#registerform').on('submit', function(e){
 		e.preventDefault();
 
-		$('#registerform').find("p").each(function(){
-				$(this).stop().slideUp("normal", function() { $(this).remove(); } );
-			
-		});
+		$("#emptyfields").remove();
 
-		$flag=false;
+		var flag=false;
+
 		$('#registerform').find("input, textarea").each(function(){
 			if (!$(this).val() || $(this).val() == ""){
-				$(this).after('<p type="notfilled" class="text-center text-warning" style="display: none"><i class="fa fa-close"></i> This field is required.</p>');
-				$(this).next().stop().slideDown();
-				$flag=true;
+					clear("#"+$(this).attr('id'));
+					$(this).after(closer);
+					flag=true;
 				}
-			else{
-				$(this).after('<i class="fa fa-check"></i>');
-			}
 		});
 
-		if ($flag==true){
+		if (flag == true){
+			$('#registerform> button').before(emptyfields);
+		}
+
+		if (flag || window.user_flag || window.mail_flag || window.pswd_flag){
 			wipepass();
 			rollup();
 			return false;}
 
-		if (checkpass() == false) {return false;}
-
-		$urlpath = $(location).attr('href');
-
-		$.post($urlpath+"register_validate", $('#registerform').serializeArray(),  function(data){
-			console.log(1);
-			alert(data);
+		$.post($urlpath+"register_user", $('#registerform').serializeArray(),  function(data){
 			if (data == "true"){
-				window.location.href = $urlpath+"/registration_successful";
+				$("")
+				window.location.href = $urlpath+"registration_successful";
 				return true;
 			}
-			else if (data == "username_taken"){
-				$('#username').after('<p type="usertaken" class="text-center text-warning" style="display: none">This username is already taken.</p>');
-				$('#username').next().stop().slideDown();
-				wipepass();
-				rollup();
-				return false;
-			}
+			
 			else if (data == "dberror"){
 				$('#registerform> button').after('<p type="usertaken" class="text-center text-warning" style="display: none">Database error. Please try later.</p>');
 				$('#registerform> button').next().stop().slideDown();

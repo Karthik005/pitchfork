@@ -1,4 +1,4 @@
-.btn {
+* {
   -webkit-border-radius: 0 !important;
      -moz-border-radius: 0 !important;
           border-radius: 0 !important;
@@ -107,3 +107,28 @@ body {
   border-top-right-radius: 0;
 }
 */
+.ui-datepicker select.ui-datepicker-month,
+.ui-datepicker select.ui-datepicker-year {
+  width: 45%;
+  background-color: #0C6868;
+}
+
+.ui-datepicker-calendar .ui-widget-content.ui-state-hover  {
+    background: #0092d6 !important;
+}
+.ui-datepicker-calendar .ui-datepicker-current-day .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+    background: #0C6868 !important;
+    border: 1px solid #0C6868 !important;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+  border: 1px solid #59b4d4;
+  background: #0C6868 url("images/ui-bg_glass_40_0078a3_1x400.png") 50% 50% repeat-x;
+  font-weight: bold;
+  color: #ffffff;
+}

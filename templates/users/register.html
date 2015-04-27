@@ -1,9 +1,12 @@
+
+  
 {% extends "users/base_site.html" %}
 
 {% load staticfiles %}
 
-{% with headval="register" %}
 
+
+    
 {% block styleadd %}
 <link rel="stylesheet" type="text/css" href="{% static "users/css/register.css" %}" />
 <link rel="stylesheet" type="text/css" href="{% static "css/dist/prettyCheckable.css" %}" />
@@ -32,9 +35,11 @@
 
 {% if not loggedin %}
 
+  {% autoescape on %}
    <div class="container">
     <form id="registerform" class="form-signup" method="post" novalidate="novalidate">{% csrf_token %}
     	<h2>Register</h2>
+      <h4 class="text-muted">All fields are required.</h4>
             <fieldset>      
               <legend>Login Information</legend>
               <div class='form-group'>
@@ -65,7 +70,7 @@
                 </div>
                 <div class='col-sm-6'>
                   <label for="inputLastName">Last name</label>
-                  <input class="form-control" id="firstname" name="lastname" required="true" size="30" type="text" />
+                  <input class="form-control" id="lastname" name="lastname" required="true" size="30" type="text" />
                 </div>
               </div>
               <div class='form-group'>
@@ -75,7 +80,7 @@
                 </div>
                 <div class="col-sm-6">
                   <label for="inputDOB">Date of Birth</label>
-                  <input class="form-control required date" id="dob" name="dob" required="true" size="30" type="date" />
+                  <input class="form-control required date" id="dob" name="dob" required="true" size="30" type="text" readonly="readonly" />
                 </div>
               </div>
             </fieldset>
@@ -103,11 +108,9 @@
         <button class="btn btn-lg btn-default btn-block hvr-sweep-to-top" type="submit">Sign up</button>
 	</form>
 	</div>
-
+{% endautoescape %}
 {% endif %}
 {% endblock %}
 
 
 
-
-{% endwith %}

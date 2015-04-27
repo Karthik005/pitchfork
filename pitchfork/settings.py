@@ -27,6 +27,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = ["localhost"]
 
 
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -36,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users'
+    'users',
+    'pitch',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -106,3 +108,8 @@ TEMPLATE_LOADERS=['django.template.loaders.filesystem.Loader']
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
     )
+
+#Media root
+MEDIA_ROOT = '/home/karthik/Projects/pitchfork/media'
+
+MEDIA_URL = "media/"

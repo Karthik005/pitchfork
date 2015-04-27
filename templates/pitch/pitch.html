@@ -1,0 +1,80 @@
+{% extends "pitch/base_site.html" %}
+
+{% load staticfiles %}
+
+{% block styleadd %}
+<link rel="stylesheet" type="text/css" href="{% static "pitch/css/pitch.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "css/dist/prettyCheckable.css" %}" />
+
+{% endblock %}
+
+{% block scriptadd %}
+
+<script src="{% static "pitch/js/pitch.js" %}"></script>
+<script src="{% static "css/dist/prettyCheckable.min.js" %}"></script>
+
+{% endblock %}
+
+{% block addbody %}
+{%if loggedin %}
+  {% autoescape on %}
+
+  	<div class="container-fluid background-skyblue">
+  		<form id="pitchform" class="form-pitch form-background-darkblue" method="post" novalidate="novalidate">{% csrf_token %}
+    	<h2>Pitch your idea</h2>
+            <fieldset>      
+              <div class='form-group'>
+                <div class='col-sm-12'>
+                  <label for="title">Title</label>
+                  <input class="form-control" id="title" name="title" required="true" size="30" type="text" />
+                </div>
+                <div class='col-sm-12'>
+                  <label for="pitch">The Pitch</label>
+                  <textarea rows="5" class="form-control" name="pitch" id="pitch" form="pitchform" maxlength="1000" placeholder="Describe your pitch breifly"></textarea>
+                </div>
+                <div class='col-sm-12'>
+                  <label for="inputFile">Pitch Description File (optional)</label>
+                  <div class="file-wrapper">
+                    <input class="form-control" id="file" name="file" size="30" type="file" placeholder="Upload file" />
+                    <label for="file" id="filechooser" class="btn btn-block btn-default"> Upload </label>
+                   </div> 
+                </div>
+                </div>
+                <div class='form-group text-center'>
+                  <div class="col-sm-4">
+                  <label for="numvol">Dev Team Size</label>
+                    <input type="number" min="1" max="10" step="1" id="numvol" name="numvol" title="Number of volunteers required"/> 
+                  </div>     
+                 <div class='col-sm-4'>
+                    <label for="appclose">Pitch-In Deadline</label>
+                    <input class="form-control required date" id="appclose" name="appclose" required="true" size="30" type="text" readonly="readonly" title="Deadline for taking pitch-in requests"/>
+                  </div>              
+                  <div class="col-sm-4">
+                    <label for="devstart">Dev Start Date</label>
+                    <input class="form-control required date" id="devstart" name="devstart" required="true" size="30" type="text" readonly="readonly" title="Development start date"/>
+                  </div>
+                 </div>
+                <div class="form-group">
+                <div class='col-sm-12'>
+                    <label for="inputProglangs">Programming Language(s)</label>
+                  </div>
+                <div class='col-sm-12'>
+                    {% for prog_lang in prog_lang_list %}
+                      <input class="checkbox-inline" type="checkbox" id="proglang{{forloop.counter}}" name="proglangs" value="{{ prog_lang.name }}" data-label="{{ prog_lang.name }}"/>
+                    {% endfor %}
+                </div>
+              </div>
+        <button id="pitchsubmit" class="btn btn-lg btn-default btn-block hvr-ripple-out" type="submit">Pitch!</button>
+	     </form>
+	 </div>
+
+{% endautoescape %}
+
+{% endif %}
+
+{% if not loggedin %}
+
+
+
+{% endif %}
+{% endblock %}

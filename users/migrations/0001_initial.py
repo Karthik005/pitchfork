@@ -8,17 +8,17 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Detail',
             fields=[
-                ('user_ref', models.ForeignKey(primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('date_of_birth', models.DateField()),
-                ('educational_qualifications', models.CharField(max_length=1000)),
-                ('experience', models.CharField(max_length=1000)),
+                ('educational_qualifications', models.TextField(max_length=1000)),
+                ('experience', models.TextField(max_length=1000)),
             ],
             options={
             },
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             name='Programming_language',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('prog_lang_name', models.CharField(unique=True, max_length=200)),
+                ('name', models.CharField(unique=True, max_length=200)),
             ],
             options={
             },
@@ -37,7 +37,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='detail',
             name='prog_langs',
-            field=models.ManyToManyField(to='users.Programming_language'),
+            field=models.ManyToManyField(to='users.Programming_language', null=True, blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='detail',
+            name='user_ref',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
     ]
