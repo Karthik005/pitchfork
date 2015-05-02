@@ -1,0 +1,12 @@
+Author: Karthik S
+
+Deployment:
+Install django from the python repository (pip install django). Download or fork the repository. Once inside the main directory, configure the database settings in the settings.py file (pitchfork/settings.py) to require values and run:
+
+./manage.py migrate
+
+to migrate the models to the local database. Then run:
+
+./manage.py runserver <port-number
+
+to run the server. The default port is 8000.
