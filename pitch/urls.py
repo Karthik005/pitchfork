@@ -5,7 +5,16 @@ from pitch import views
 urlpatterns = patterns('',
     url(r'^$', views.pitch_view, name='pitch'),
     url(r'^pitch_validate$', views.pitch_validate, name='pitch_validate'),
+    url(r'^vote/$', views.vote_pitch, name='vote_pitch'),
+    url(r'^remove/$', views.remove_pitch, name='remove_pitch'),
+    url(r'^pitchin/$', views.pitch_in, name='pitch_in'),
     url(r'^mypitches/$', views.user_pitch, name='user_pitch'),
+    url(r'^otherpitches/$', views.other_pitch, name='other_pitch'),
+    url(r'^pitchedinpitches/$', views.pitchedin_pitch, name='pitchedin_pitch'),
+    url(r'^devteamadd/$', views.devteam_add, name='devteam_add'),
+
+    url(r'^display_pitch/(?P<pitch_id>(.)*)/', views.display_pitch, name='display_pitch'),
+# (\w+)
 )
 
     # '''

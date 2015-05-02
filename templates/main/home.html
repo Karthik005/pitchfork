@@ -1,92 +1,22 @@
+{% extends "main/base_site.html" %}
+
 {% load staticfiles %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en">
-	
-	<head>
-		
-		<!--metas-->
-		<meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% load pitch_lister %}
 
-	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	    <meta name="description" content="">
-	    <meta name="author" content="">
-	    
-	    <!--title-->
-		<title>Pitchfork | {{  headval }}</title>
- 		
-		<!--stylesheets-->
-		<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.css" %}" />
-		<link rel="stylesheet" type="text/css" href="{% static "css/modder.css" %}" />
-		<link rel="stylesheet" type="text/css" href="{% static "css/font-awesome.css" %}" />
-		<link rel="stylesheet" type="text/css" href="{% static "css/hover.css" %}" />
-		<link rel="stylesheet" type="text/css" href="{% static "css/jquery-ui.css" %}" />
-		<link rel="stylesheet" type="text/css" href="{% static "css/jquery-ui.theme.css" %}" />
-		{% block styleadd %}
-		{% endblock %}
-		
-		<!--scripts-->
-		<script src="{% static "js/jquery.js" %}"></script>
-		<script src="{% static "js/bootstrap.js" %}"></script>
-		<script src="{% static "js/url.js" %}"></script>
-		<script src="{% static "js/jquery-ui.js" %}"></script>
-		{% block scriptadd %}
-		{% endblock %}
+{% block styleadd %}
+<link rel="stylesheet" type="text/css" href="{% static "pitch/css/pitchlist.css" %}" />
 
-		
-		<!--icons-->
-		<link rel="icon" href="{% static "images/favicon/favicon.png" %}" type="image/png">
+{% endblock %}
 
-	</head>
+{% block scriptadd %}
 
-	<body>
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-		      <div class="container">
-		        <div class="navbar-header">
-		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-		            <span class="sr-only">Toggle navigation</span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		          </button>
-		          <a class="navbar-brand" href="/">Pitchfork</a>
-		        </div>
-		        <div id="navbar" class="navbar-collapse collapse">
-		        <!--
-		          <ul class="nav navbar-nav">
-		            <li class="active"><a href="#">Home</a></li>
-		            <li><a href="#about">About</a></li>
-		            <li><a href="#contact">Contact</a></li>
-		            <li class="dropdown">
-		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-		              <ul class="dropdown-menu" role="menu">
-		                <li><a href="#">Action</a></li>
-		                <li><a href="#">Another action</a></li>
-		                <li><a href="#">Something else here</a></li>
-		                <li class="divider"></li>
-		                <li class="dropdown-header">Nav header</li>
-		                <li><a href="#">Separated link</a></li>
-		                <li><a href="#">One more separated link</a></li>
-		              </ul>
-		            </li>
-		          </ul>-->
-		          <ul class="nav navbar-nav navbar-right">
-		          {% if loggedin %}
-		          	<li><a href="{{ pitch_url|urlencode}}">Pitch</a></li>
-		            <li><a href="{{ logout_url|urlencode }}">Logout</a></li>
-		          {% endif %}
-		          {% if not loggedin %}
-		          	<li><a href="{{ register_url|urlencode }}">Sign Up</a></li>
-		            <li><a href="{{ login_url|urlencode }}">Login</a></li>
-		          {% endif %}
-		            <!--<li><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>-->
-		          </ul>
-		        </div><!--/.nav-collapse -->
-		      </div>
-    </nav>
-		{% block addbody %}
-		{% endblock %}
-	</body>
-</html>
+<script src="{% static "pitch/js/mypitches.js" %}"></script>
+
+{% endblock %}
+
+{% block addbody %}
+{% autoescape on %}
+Herh goes nothing
+
+{% endautoescape%}
+{%endblock%}

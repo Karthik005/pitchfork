@@ -1,4 +1,22 @@
+
+
+function getUrlParameter(sParam)
+	{
+	    var sPageURL = window.location.search.substring(1);
+	    var sURLVariables = sPageURL.split('&');
+	    for (var i = 0; i < sURLVariables.length; i++) 
+	    {
+	        var sParameterName = sURLVariables[i].split('=');
+	        if (sParameterName[0] == sParam) 
+	        {
+	            return sParameterName[1];
+	        }
+	    }
+	} 
+
+
 $(document).ready(function(){
+
 	$('#loginform').on('submit', function(e){
 		e.preventDefault();
 
@@ -19,11 +37,16 @@ $(document).ready(function(){
 		});
 		if ($flag==true){return false;}
 
-		$urlpath = $(location).attr('href');
+		var urlpath = window.location.href.split('?')[0];
+		var sendpath = (urlpath.substr(urlpath.length - 1)=='/') ? urlpath+"login_validate" : urlpath+"/login_validate";
 
-		$.post($urlpath+"login_validate", $('#loginform').serializeArray(),  function(data){
+		$.post(sendpath, $('#loginform').serializeArray(),  function(data){
 			if (data == "true"){
-				window.location.href = "http://"+window.location.host+"/redirect/?from="+$.url('?from');
+				var reder = getUrlParameter('red');
+				if (reder == undefined){
+					reder="user_pitch"
+				}
+				window.location.href = "http://"+window.location.host+"/redirect/?red="+reder;
 				return true;
 			}
 			else if (data == "false"){

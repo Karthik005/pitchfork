@@ -186,7 +186,6 @@ $(document).ready(function(){
 
 		$.post($urlpath, $('#pitchform').serializeArray(),  function(data){
 			if (data == "true"){
-				$("")
 				window.location.href = $urlpath+"mypitches/";
 				return true;
 			}

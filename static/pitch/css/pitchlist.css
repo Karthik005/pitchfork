@@ -1,0 +1,284 @@
+.btn {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+*/
+
+
+body {
+  padding-top: 50px;
+  /*padding-bottom: 40px;*/
+}
+
+.background-cyan{
+  background-color: #00A3C9 !important;
+}
+
+.background-skyblue{
+  background-color: #0092d6  !important;
+}
+
+.background-tomato{
+  background-color: #FF6447 !important;
+}
+
+.background-seagreen{
+  background-color: #0C6868 !important;
+}
+
+.container-fluid{
+  padding-top:50px;
+}
+
+.text-white{
+  color: #fff !important;
+}
+
+.text-cyan{
+  color: #00A3C9 !important;
+}
+
+.text-warning, .fa-close {
+  color: #FF8080 !important;
+}
+
+.fa-check{
+  color: #0C6868;
+  height: 5px;
+}
+.hvr-sweep-to-top:before{
+  background-color: #0C6868;
+}
+
+.btn{
+  border: 0px !important;
+
+}
+
+.vertical-center{
+}
+
+.pointer{
+    cursor:pointer;
+}
+
+.hvr-icon-float-away:after,
+.hvr-icon-float-away:before{
+  /*padding-right: 1px;*/
+  content:  "\f062";
+  margin-top: -15px;
+  font-size: inherit;
+}
+.hvr-icon-sink-away:after,
+.hvr-icon-sink-away:before{
+  /*padding-right: 1px;*/
+  content: "\f063";
+  margin-top: -15px;
+  font-size: inherit;
+}
+                                                            
+.hvr-icon-spin:before{
+  /*padding-right: 1px;*/
+  content:  "\f126";
+  margin-top: -15px;
+  font-size: inherit;
+}
+
+.hvr-icon-pulse-grow:before{
+  /*padding-right: 1px;*/
+  content:  "\f00d";
+  margin-top: -15px;
+  font-size: inherit;
+}
+
+.flex{
+  display: flex;
+  flex-direction: inline-block;
+  flex-wrap: flex-wrap;
+}
+
+.control{
+  font-size: 500%;
+  margin-left: 30%;
+  margin-top: -10%;
+}
+
+/*.hvr-icon-float-away:after{
+  position:relative;
+  width: 100%;
+  height:10px;
+  color:inherit;
+  content:  "\f063";
+}*/
+/*.hvr-icon-sink-away{
+  content:  "\f063";
+    height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  color: inherit;
+  font-family: FontAwesome;
+}*/
+
+.blocker{
+  min-height: 400px;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.text-soprano{
+  color: #D00E49 !important;
+}
+.text-tenor{
+  color: #1151E5 !important;
+}
+.text-baritone{
+  color: #019B1C !important;
+}
+.text-bass{
+  color: #758377 !important;
+}
+
+.divider {
+  margin-top: 10px;
+  height: 1px;
+  width:100%;
+  display:block; /* for use on default inline elements like span */
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+
+.pitch a{
+  text-decoration: none;
+  color:inherit;
+  margin-top: -5px;
+}
+
+.pad-left{
+  padding-left: 20px;
+}
+
+.marge-top{
+  margin-top: 30px;
+}
+
+.marge-bottom{
+  margin-bottom: 30px;
+}
+.marge-topper{
+  margin-top: 60px;
+}
+
+.marge-lefter{
+  margin-left: 80px;
+}
+
+.marge-bridge{
+  margin-left: -15%;
+}
+
+.min-heighted{
+  min-height: 100px;
+}
+.text-wrap{
+  word-break:break-all;
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none;
+}
+
+.overlay .transparency  
+{  
+    opacity:0.5;  
+    filter:alpha(opacity=50);  
+    -moz-opacity:0.5;  
+    background-color:#000000;  
+    width:100%;  
+    height:100%;  
+    position:absolute;  
+    top:0px;  
+    left:0px;  
+    z-index:-1;  
+}  
+  
+.overlay-message 
+{  
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0; 
+  max-height: 40%;
+  padding-top: 5%;
+  max-width: 50%;  
+}
+
+.background-white{
+  background-color: #fff;
+}
+.overlay-message .btn{
+  margin-top: 30px;
+}
+
+.fa-circle:before, .fa-circle-o:before{
+  color: #337AB7;
+}
+
+.fa-
+/*
+.form-pitch .form-pitch-heading,
+.form-pitch .checkbox {
+  margin-bottom: 10px;
+}
+.form-pitch .checkbox {
+  font-weight: normal;
+}
+.form-pitch .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-pitch .form-control:focus {
+  z-index: 2;
+}
+.form-pitch input  {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-pitch input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+*/
+
+/*.file-wrapper, .form-pitch .file-wrapper {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}*/
+/* Decorative 
+  background: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+[type=file] + label:hover, .form-pitch [type=file] + label:hover {
+  background: #3399ff;
+}*/

@@ -65,6 +65,8 @@ ROOT_URLCONF = 'pitchfork.urls'
 
 WSGI_APPLICATION = 'pitchfork.wsgi.application'
 
+LOGIN_URL = '/users/login/'
+LOGIN_REDIRECT_URL = '/pitch/mypitches/'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases

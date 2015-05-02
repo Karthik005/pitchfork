@@ -1,0 +1,10 @@
+<a href="{{profile_url}}" target="_blank">
+	<button class="btn btn-default btn-lg hvr-hollow hvr-reveal hvr-grow-shadow"><div class=" text-primary">
+		{%ifnotequal user renderuser %}
+		{{renderuser}}
+		{%else%}
+		You
+		{%endifnotequal%}
+	</div>
+	</button>
+</a>

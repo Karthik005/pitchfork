@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from users.models import *
+from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import models as moder
 from django.core.exceptions import *
@@ -18,19 +19,19 @@ def dateconvert(date):
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+
 
 def login_view(request):
+    redirect_url = request.GET.get('red',None)
     if request.user.is_authenticated() and not request.user.is_superuser:
         loggedin = True
     else:
         loggedin = False
     context={'headval':"Login",
              'loggedin' : loggedin,
-            'login_url' : reverse(login_view),
-            'register_url' : reverse(register_view),
-            'logout_url' : reverse(logout_view)}
+            'login_url' : reverse('login'),
+            'register_url' : reverse('register'),
+            'logout_url' : reverse('logout')}
 
     return render(request, 'users/login.html', context)
 
@@ -68,7 +69,8 @@ def register_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect('http://localhost:8000/users/login/')
+    red=request.GET.get('red','null')
+    return redirect(reverse('home'))
 
 
 

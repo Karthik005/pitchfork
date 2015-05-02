@@ -1,0 +1,55 @@
+{% extends "pitch/base_site.html" %}
+
+{% load staticfiles %}
+{% load pitch_lister %}
+
+{% block styleadd %}
+<link rel="stylesheet" type="text/css" href="{% static "pitch/css/pitchlist.css" %}" />
+
+{% endblock %}
+
+{% block scriptadd %}
+
+<script src="{% static "pitch/js/mypitches.js" %}"></script>
+
+{% endblock %}
+
+{% block addbody %}
+{% autoescape on %}
+	
+	
+  	<div class="container-fluid">
+  		{%if not empty %}
+			<div class="row">
+  				<div class="col-sm-12 text-center">
+	 				<h3> {{headval}}</h3>
+  				</div>
+  			</div>
+
+			{% for userpitch in user_pitches %}
+			    {% show_user_pitch userpitch %}<br />
+			{% endfor %}
+			<div class="pagination">
+				<ul>
+				{%if user_pitches.previous_page_number >= 1 %}
+					<li><a href="?page={{ user_pitches.previous_page_number }}"><span class="fa fa-arrow-left"></span></a></li>
+				{% endif %}
+				{%if user_pitches.previous_page_number <=  user_pitches.num_pages %}
+					<li><a href="?page={{ user_pitches.next_page_number }}"><span class="fa fa-arrow-right"></span></a></li>
+				{% endif %}
+				</ul>
+			</div> 
+		{% endif %}
+		{%if empty and my %}
+			<div class="text-center blocker vertical-center">
+				<h3>You don't have any pitches!</h3>
+				<br />
+				<a href="{{ pitch_url|urlencode}}">
+					<button class="btn btn-lg btn-default hvr-float-shadow background-skyblue text-white"> Pitch Now </button>
+				</a>
+			</div>
+		{% endif %}
+	</div>
+
+{% endautoescape %}
+{% endblock %}

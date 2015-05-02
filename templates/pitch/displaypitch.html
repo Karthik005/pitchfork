@@ -1,0 +1,252 @@
+{% extends "pitch/base_site.html" %}
+
+{% load staticfiles %}
+{% load pitch_lister %}
+
+{% block styleadd %}
+<link rel="stylesheet" type="text/css" href="{% static "pitch/css/pitchlist.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "css/dist/prettyCheckable.css" %}" />
+
+{% endblock %}
+
+{% block scriptadd %}
+
+<script src="{% static "pitch/js/displaypitch.js" %}"></script>
+<script src="{% static "css/dist/prettyCheckable.min.js" %}"></script>
+
+
+{% endblock %}
+
+{% block addbody %}
+{% autoescape on %}
+	
+	
+  	<div class="container-fluid display-pitch">
+  		{%if not empty %}
+  			<div class="row">
+  				<div class="col-sm-12 text-center">
+  					<h3 class="text-{{rating}}">{{pitch.title}}</h3>
+  				</div>
+  			</div>
+  			<span class="divider"></span>
+  			<div class="row min-heighted">
+	  			<div class="col-sm-3">
+	  				<h2 class= "pad-left text-cyan "> The pitch</h2>
+	  			</div>
+	  			<div class="col-sm-9"><h4 class= "pad-left marge-top text-wrap">{{pitch.pitch}}</h4></div>
+  			</div>
+  			<span class="divider"></span>
+  			<div class="row min-heighted">
+	  			<div class="col-sm-3">
+	  				<h2 class= "pad-left text-cyan "> Pitcher</h2>
+	  			</div>
+	  			<div class="col-sm-3"><h4 class= "pad-left text-wrap">{% link_profile pitch.user user%}</h4>
+	  			</div>
+	  			<div class="col-sm-3">
+	  				<h2 class= "pad-left text-cyan "> Pitch Document </h2>
+	  			</div>
+					<div class="col-sm-3"><h4 class= "pad-left marge-top text-wrap">{%if pitch.document%}{{ pitch.document }}{%else%} None {%endif%}</h4>
+	  			</div>
+  			</div>
+			 
+
+			<span class="divider"></span>
+			<div class="row min-heighted">
+				<div class="col-sm-3 ">
+	  				<h2 class= "pad-left text-cyan"> Votes </h2>
+	  			</div>
+	  			<div class="col-sm-3"><h4 class= "pad-left marge-top text-wrap">
+	  				<span class="text-{{rating}}"><span id="votes">{{votes}}</span>  [{{rating}}]</span>
+	  			</h4>
+	  			</div>
+	  			<div class="col-sm-3"><h4 class= "pad-left marge-top text-wrap">
+	  				<span class="text-success" title="upvotes received"><span id="upvotes">{{data.upvotes}}</span>
+	  				<span class="hvr-icon-float-away"></span></span>
+				</h4>
+	  			</div>
+	  			<div class="col-sm-3"><h4 class= "pad-left marge-top text-wrap">
+	  				<span class="text-danger" title="downvotes received"><span id="downvotes">{{data.downvotes}}</span>
+	  				<span class="hvr-icon-sink-away"></span></span>
+	  			</h4>
+	  			</div>
+  			</div>
+			<span class="divider"></span>
+			<div class="row min-heighted">
+				<div class="col-sm-3 ">
+	  				<h2 class= "pad-left text-cyan"> Language(s) </h2>
+	  			</div>
+	  			<div class="col-sm-9"><h4 class= "pad-left marge-top text-wrap">
+	  			{%for prog_lang in prog_langs%}
+	  				<span>{{prog_lang}} &nbsp</span>
+	  			{%endfor%}
+	  			</h4>
+  			</div>
+  			</div>
+  			<span class="divider"></span>
+			<div class="row min-heighted">
+				<div class="col-sm-3 ">
+	  				<h2 class= "pad-left text-cyan"> Dev Start Date </h2>
+	  			</div>
+	  			<div class="col-sm-3">
+	  				<h4 class= "pad-left marge-top text-wrap"> 
+	  				{{pitch_data.dev_start_date}}
+	  				</h4>
+  				</div>
+ 				<div class="col-sm-3 ">
+	  				<h2 class= "pad-left text-cyan"> Pitch-in Closing </h2>
+	  			</div>
+	  			<div class="col-sm-3">
+	  				<h4 class= "pad-left marge-top text-wrap"> 
+	  				{{pitch_data.app_close_date}}
+	  				</h4>
+  				</div>
+  			</div>
+
+  			{% if my %}
+  			<span class="divider"></span>
+
+  			<div class="row min-heighted">
+   			{% if dev_flag%}
+  			<div class="col-sm-3">
+  			<h1 class="text-cyan pad-left min-heighted">Dev Team</h1>
+  			</div>
+  			<div class="col-sm-8">
+	  			{%for dev_member in dev_team%}
+	  				<div class="marge-left marge-top"> {% link_profile dev_member.user user%} </div>
+	  			{%endfor%}
+  			</div>
+  			{%endif%} 
+
+  			{%if not dev_flag%}
+
+ 			<div class="col-sm-4">
+  			<h1 class="text-cyan pad-left">Pitch-in Requests:</h1></div>
+  			
+			<div class="col-sm-5 min-heighted">
+  					<form class="form" id="volunteerform" method="post" novalidate="novalidate">
+  					{% csrf_token %}
+                    {% for volunteer in volunteer_list %}
+                      <input class=" checkbox-inline marge-left marge-bridge" type="checkbox" id="volunteer{{forloop.counter}}" name="devteam" value="{{ volunteer.user.username }}" data-label=""/><span style="margin-left: -15px;">{%link_profile volunteer.user user%}</span>
+                    {%endfor%}
+                    {% if volunteer_list %}
+                    <input type="number" style="display: none;" name="pitch" value="{{pitch.id}}" />
+                    	</form></div>
+            <div class="col-sm-3 min-heighted"><button id="submit_vol" class="marge-top text-white btn btn-default hvr-trim background-cyan">		Accept requests</button>
+            </div>
+
+                    {%elif not volunteer_list%}
+                    <div class="form-group text-warning text-center">
+                    	No volunteers yet.
+                    </div>
+                    </form></div>
+                    {%endif%}
+			</div>
+
+				{% endif %}
+			{% endif %}
+
+			<span class="divider"></span>
+  			<div class= "row min-heighted" id="controls">
+  				<div class="col-sm-4">
+  					<span class="text-success pad-left control">
+	  				<span  id="upvote"  title="upvote" class="hvr-icon-float-away {%if not voted %} pointer {%endif%}"></span></span></h1>
+  				</div>
+   				<div class="col-sm-4">
+  					<span class="text-danger pad-left control">
+	  				<span id="downvote" title="downvote"  class="hvr-icon-sink-away {%if not voted %} pointer {%endif%}"></span></span></h1>
+  				</div>
+  				{% if not my %}
+   				<div class="col-sm-4">
+  					<span class="text-primary pad-left control">
+	  				<span id={%if not pitched_in%}"pitchin"{% else %}"pitched-in"{%endif%} title="pitch-in" class="hvr-icon-spin {%if not pitched_in%} pointer {%endif%}"></span></span>
+	  				<i class="marge-bridge fa {%if not pitched_in %} fa-circle-o {%else%} fa-circle {%endif%}"></i></h1>
+
+  				</div>
+  				{%else%}
+  				<div class="col-sm-4">
+  					<span class="text-warning pad-left control">
+	  				<span id="remove" title="remove" class="hvr-icon-pulse-grow pointer"></span></span></h1>
+  				</div>
+  				{%endif%}
+  			</div>
+  			  				
+
+  			<span class="divider marge-topper"></span>
+  			<div class="row min-heighted">
+  			<h1 class="text-cyan pad-left">Comments</h1> 
+  			{%for comment in comment_list%}
+  			<div class="col-sm-12 min-heighted marge-top">
+  			<div class="pad-left"> {% link_profile comment.user user%}</div>
+  			</div>
+  			<div class="col-sm-12 pad-left"> {{comment.comment}}</div>
+  			{%endfor%}
+  			<form id="commentform" class="form" method="get" novalidate="novalidate">
+  			<div class="col-sm-8 pad-left">
+              <textarea rows="5" class="form-control" name="comment" id="comment" form="commentform" maxlength="1000" placeholder="Enter comment here."></textarea>
+             </div>
+             <div class="col-sm-12 pad-left marge-top marge-bottom">
+              <button id="commentsubmit" class="btn background-cyan text-white hvr-trim" type="submit">Submit</button>
+             </div>
+	    	</form>
+  			</div>
+
+
+
+		{%endif%}
+
+		{%if empty and my%}
+			<div class="text-center blocker vertical-center">
+				<h3>You don't have any pitches!</h3>
+				<a href="{{ pitch_url|urlencode}}">
+					<button class="btn btn-lg btn-default hvr-float-shadow text-cyan"> Pitch Now </button>
+				</a>
+			</div>
+		{%elif empty and not my%}
+			<div class="text-center blocker vertical-center">
+				<h3>No pitches found</h3>
+			</div>
+		{% endif %}
+	</div>
+
+	<!-- Overlay messages -->
+	<div class="overlay" id="overlay-voted">
+		<div class="transparency"></div>
+		<div class="overlay-message text-center text-cyan background-white"><h1> You have already voted for this pitch!</h1>
+		<button id="okay" class="overlay-btn btn btn-default hvr-trim background-cyan text-white">OK</button> 
+		</div>
+	</div>
+	{% if my %}
+	<div class="overlay" id="overlay-remove">
+		<div class="transparency"></div>
+		<div class="overlay-message text-center text-cyan background-white"><h1> Are you sure you want to remove this pitch?</h1>
+		<button class="overlay-btn btn btn-default hvr-trim background-seagreen text-white" id="remove_yes">YES</button> 
+		<button class="overlay-btn btn btn-default hvr-trim background-tomato text-white" id="remove_no">NO</button> 
+		</div>
+	</div>
+	<div class="overlay" id="overlay-needed">
+		<div class="transparency"></div>
+		<div class="overlay-message text-center text-cyan background-white"><h1> You need to check atleast one user.</h1>
+		<button id="okay_needed" class="overlay-btn btn btn-default hvr-trim background-cyan text-white">OK</button>
+		</div>
+	</div>
+	{% elif not my and not pitched_in%}
+	<div class="overlay" id="overlay-pitchin">
+		<div class="transparency"></div>
+		<div class="overlay-message text-center text-cyan background-white"><h1> Are you sure you want to send a pitch-in request?</h1>
+		<button class="overlay-btn btn btn-default hvr-trim background-seagreen text-white" id="pitchin_yes">YES</button> 
+		<button class="overlay-btn btn btn-default hvr-trim background-tomato text-white" id="pitchin_no">NO</button> 
+		</div>
+	</div>
+	{%elif not my and pitched_in%}
+	<div class="overlay" id="overlay-pitchedin">
+		<div class="transparency"></div>
+		<div class="overlay-message text-center text-cyan background-white"><h1> You have already sent a pitch-in request.</h1>
+		<button id="okay_pitchedin" class="overlay-btn btn btn-default hvr-trim background-cyan text-white">OK</button> 
+		</div>
+
+	</div>
+	{% endif %}
+
+
+{% endautoescape %}
+{% endblock %}

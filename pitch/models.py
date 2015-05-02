@@ -32,6 +32,9 @@ class Data(models.Model):
 
 	votes = property(_get_votes)
 
+	def __str__(self):
+		return str(self.pitch)
+
 
 class PitchData(models.Model):
 	
@@ -46,5 +49,31 @@ class DevData(models.Model):
 	git_url = models.URLField()
 
 
+class VotedFor(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	pitch = models.ForeignKey(Pitch, on_delete=models.CASCADE)
 
+	def __str__(self):
+		return str(self.user)+", "+str(self.pitch)
 
+class VolunteeredFor(models.Model) :
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	pitch = models.ForeignKey(Pitch, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return str(self.user)+", "+str(self.pitch)
+
+class DevTeam(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	pitch = models.ForeignKey(Pitch, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return str(self.user)+", "+str(self.pitch)
+
+class Comment(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	pitch = models.ForeignKey(Pitch, on_delete=models.CASCADE)
+   	comment = models.TextField()
+
+   	def __str__(self):
+   		return str(self.user)+", "+str(self.pitch)+", "+str(comment)
