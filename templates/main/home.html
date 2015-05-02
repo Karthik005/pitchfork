@@ -4,19 +4,26 @@
 {% load pitch_lister %}
 
 {% block styleadd %}
-<link rel="stylesheet" type="text/css" href="{% static "pitch/css/pitchlist.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "main/css/home.css" %}" />
 
 {% endblock %}
 
 {% block scriptadd %}
 
-<script src="{% static "pitch/js/mypitches.js" %}"></script>
 
 {% endblock %}
 
 {% block addbody %}
 {% autoescape on %}
-Herh goes nothing
-
+	<div class="big-slide background-release-img">
+		<div class="vertical-center text-center text-white mega lift-up">Let your ideas take flight.
+		<div class="row">
+		<div class="col-sm-6">
+		<span class="vertical-center marge-top"><a href="{{register_url|urlencode}}"><button class="btn btn-default btn-set border-white background-inherit hvr-fade marge-top" style="margin-left:80%; width:100px;"><h4 class="text-white">Register</h4></button></a></span>
+		</div>
+		<div class="col-sm-6 ">
+		<span class="vertical-center marge-top"><a href="{{login_url|urlencode}}"><button class="btn btn-default btn-set border-white background-inherit hvr-fade marge-top" style="margin-right:80%; width:100px;"><h4 class="text-white">Login</h4></button></a></span>
+		</div>
+	</div>
 {% endautoescape%}
 {%endblock%}

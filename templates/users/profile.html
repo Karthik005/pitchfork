@@ -1,0 +1,109 @@
+{% extends "pitch/base_site.html" %}
+
+{% load staticfiles %}
+{% load pitch_lister %}
+
+{% block styleadd %}
+<link rel="stylesheet" type="text/css" href="{% static "pitch/css/pitchlist.css" %}" />
+<link rel="stylesheet" type="text/css" href="{% static "css/dist/prettyCheckable.css" %}" />
+
+{% endblock %}
+
+{% block scriptadd %}
+
+<script src="{% static "css/dist/prettyCheckable.min.js" %}"></script>
+
+
+{% endblock %}
+
+{% block addbody %}
+{% autoescape on %}
+	
+	
+  	<div class="container-fluid display-pitch">
+  			<div class="row">
+  				<div class="col-sm-12 text-center">
+  					<h3 class="text-cyan">{{user.username}}</h3>
+  				</div>
+  			</div>
+  			<span class="divider"></span>
+  			<div class="row min-heighted">
+	  			<div class="col-sm-4">
+	  				<h2 class= "pad-left text-cyan "> Name</h2>
+	  			</div>
+	  			<div class="col-sm-8"><h4 class= "pad-left marge-top text-wrap">{{user.first_name}} {{user.last_name}}</h4></div>
+  			</div>			 
+
+ 			<span class="divider"></span>
+			<div class="row min-heighted">
+				<div class="col-sm-4 ">
+	  				<h2 class= "pad-left text-cyan"> Programming Languages </h2>
+	  			</div>
+	  			<div class="col-sm-8"><h4 class= "pad-left marge-top text-wrap">
+	  			{%for prog_lang in prog_langs%}
+	  				<span>{{prog_lang}} &nbsp</span>
+	  			{%endfor%}
+	  			</h4>
+  			</div>
+  			</div>
+  			<span class="divider"></span>
+			<div class="row min-heighted">
+				<div class="col-sm-4 ">
+	  				<h2 class= "pad-left text-cyan"> Educational Qualifications </h2>
+	  			</div>
+	  			<div class="col-sm-8"><h4 class= "pad-left marge-top text-wrap">
+ 					{{detail.educational_qualifications}}
+	  			</h4>
+  			</div>
+  			</div> 	
+			<span class="divider"></span>
+			<div class="row min-heighted">
+				<div class="col-sm-4 ">
+	  				<h2 class= "pad-left text-cyan"> Professional Experience</h2>
+	  			</div>
+	  			<div class="col-sm-8"><h4 class= "pad-left marge-top text-wrap">
+ 					{{detail.experience}}
+	  			</h4>
+  			</div>
+  			</div>
+			<span class="divider"></span>
+			<div class="row min-heighted">
+				<div class="col-sm-4 ">
+	  				<h2 class= "pad-left text-cyan"> Pitches</h2>
+	  			</div>
+	  			<div class="col-sm-8">
+	  			{%for pitch, display_url in pitch_urls%}
+	  			<div class="pitch"><a href="{{display_url}}" target="_blank"><h4 class= "pad-left pitch text-cyan pad-left marge-top text-wrap"><span>{{pitch.title}}</span></h4></a></div>
+	  			{%endfor%}
+	  			</div>
+  			</div>
+
+
+  			{% if my %}
+  			<span class="divider"></span>
+
+
+ 			<div class="col-sm-12">
+  			<h1 class="text-cyan pad-left">Pitch-in Requests:</h1></div>
+  			<div class="col-sm-6">
+  				<h3 class="text-success text-center">Accepted</h3>
+	  			{%for pitch, display_url in accepted_urls%}
+	  				<div class="pitch"><a href="{{display_url}}" target="_blank"><h4 class= "pitch text-success pad-left marge-top text-wrap text-center"><span>{{pitch.title}}</span></h4></a></div>
+	  			{%empty%}
+	  				<h4 class="text-cyan text-center"> No accepted requests</h4>
+	  			{%endfor%}
+	  		</div>
+	  		<div class="col-sm-6">
+	  			<h3 class="text-danger text-center"> Pending</h3>
+	  			{%for pitch, display_url in pending_urls%}
+	  				<div class="pitch"><a href="{{display_url}}" target="_blank"><h4 class= "pitch text-danger pad-left marge-top text-wrap text-center"><span>{{pitch.title}}</span></h4></a>  </div>
+	  			{%empty%}
+	  				<h4 class="text-cyan"> No pending requests</h4>
+	  			{%endfor%}
+	  		</div>
+	  		<div class="col-sm-12 marge-topper"></div>
+  			{%endif%}
+
+
+{% endautoescape %}
+{% endblock %}

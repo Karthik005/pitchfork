@@ -28,6 +28,7 @@ context_loggedin = {
                 'pitchedinpitches_url': reverse_lazy('pitchedin_pitch'),
                 'logout_url':reverse_lazy('logout'),
                 'login_url':reverse_lazy('login'),
+                'register_url':reverse_lazy('register'),
                 }
 
 
@@ -48,10 +49,11 @@ def pitch_view(request):
     if request.method == "GET":
         if request.user.is_authenticated() and not request.user.is_superuser:
             loggedin = True
+            profile_url=reverse('profile', args = (request.user.id,))
 
             prog_lang_list = user_models.Programming_language.objects.all()
             context=context_loggedin.copy()
-            context.update({'prog_lang_list': prog_lang_list, 'loggedin' : loggedin})
+            context.update({'prog_lang_list': prog_lang_list, 'loggedin' : loggedin, 'profile_url':profile_url})
             return render(request, 'pitch/pitch.html', context)
 
         else:
@@ -115,6 +117,7 @@ def user_pitch(request):
     if request.method == "GET":
         if request.user.is_authenticated() and not request.user.is_superuser:
             loggedin = True
+            profile_url=reverse('profile', args = (request.user.id,))
             try:
                 userPitches = Pitch.objects.all().filter(user=request.user)
                 userPitches = sorted(userPitches, key=lambda t: -t.data_set.get().votes)
@@ -144,7 +147,8 @@ def user_pitch(request):
                         'my': True,
                         'headval': "My Pitches",
                         'empty': empty, 
-                        'loggedin':loggedin})
+                        'loggedin':loggedin,
+                        'profile_url':profile_url})
 
             return render_to_response('pitch/mypitches.html', context)
 
@@ -157,6 +161,7 @@ def other_pitch(request):
     if request.method == "GET":
         if request.user.is_authenticated() and not request.user.is_superuser:
             loggedin = True
+            profile_url=reverse('profile', args = (request.user.id,))
             try:
                 otherPitches = filter( lambda x: x.user != request.user, Pitch.objects.all())
                 otherPitches = sorted(otherPitches, key=lambda t: -t.data_set.get().votes)
@@ -186,7 +191,8 @@ def other_pitch(request):
                         'empty': empty, 
                         'headval': "Others Pitches",
                         'display_pitch_url': reverse_lazy('display_pitch'),
-                        'loggedin':loggedin})
+                        'loggedin':loggedin,
+                        'profile_url':profile_url})
 
             return render_to_response('pitch/mypitches.html', context)
 
@@ -198,6 +204,7 @@ def display_pitch(request, pitch_id):
     if request.method == "GET":
         if request.user.is_authenticated() and not request.user.is_superuser:
             loggedin = True
+            profile_url=reverse('profile', args = (request.user.id,))
             try:
                 pitch_displayed= Pitch.objects.get(id=pitch_id)
                 empty = False 
@@ -237,7 +244,8 @@ def display_pitch(request, pitch_id):
                         'user':request.user,
                         'comment_list':comment_list,
                         'prog_langs': prog_langs,
-                        'loggedin':loggedin})
+                        'loggedin':loggedin,
+                        'profile_url':profile_url})
 
             return render_to_response('pitch/displaypitch.html', context, context_instance=RequestContext(request))
 
@@ -307,6 +315,7 @@ def pitchedin_pitch(request):
     if request.method == "GET":
         if request.user.is_authenticated() and not request.user.is_superuser:
             loggedin = True
+            profile_url=reverse('profile', args = (request.user.id,))
             try:
                 pitchedinPitches = map( lambda x: x.pitch, filter( lambda x: x.user == request.user, VolunteeredFor.objects.all()))
                 pitchedinPitches = sorted(pitchedinPitches, key=lambda t: -t.data_set.get().votes)
@@ -335,7 +344,8 @@ def pitchedin_pitch(request):
                         'empty': empty, 
                         'headval': "Pitched-in Pitches",
                         'display_pitch_url': reverse_lazy('display_pitch'),
-                        'loggedin':loggedin})
+                        'loggedin':loggedin,
+                        'profile_url':profile_url})
 
             return render_to_response('pitch/mypitches.html', context)
 
@@ -359,11 +369,23 @@ def comment_pitch(request):
 def devteam_add(request):
     if request.method == "POST":
         devteamlist = request.POST.getlist("devteam")
-        pitch_id = request.POST.get("pitch")
-        print pitch_id
+        pitch = Pitch.objects.get(id = request.POST.get("pitch"))
         for devmember in devteamlist:
-            print devmember
-            new_member = DevTeam(user = User.objects.get(username=devmember), pitch = Pitch.objects.get(id = pitch_id))
+            user =  User.objects.get(username=devmember)       
+            new_member = DevTeam(user = user, pitch  = pitch)
             new_member.save()
+            VolunteeredFor.objects.get(pitch = pitch, user = user).delete() 
 
         return HttpResponse("true")
+
+def add_comment(request):
+    if request.method == "GET":
+        user = request.user 
+        pitch = Pitch.objects.get(id = request.GET.get('pitch'))
+        comment = request.GET.get('comment')
+        new_comment = Comment(user = user, pitch = pitch, comment = comment)
+        new_comment.save()
+        profile_url = reverse("profile", args = (user.id,))
+        
+        context = {'profile_url':profile_url, 'renderuser': user, 'my':True, 'user':user, 'comment':comment}
+        return render_to_response('pitch/displaycomment.html', context)

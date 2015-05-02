@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from users.models import *
 from django.shortcuts import redirect
@@ -7,7 +7,8 @@ from django.contrib.auth import models as moder
 from django.core.exceptions import *
 from django.db import *
 from django.contrib.auth.hashers import *
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
+from pitch.models import *
 
 import datetime
 
@@ -19,7 +20,15 @@ def dateconvert(date):
 
 # Create your views here.
 
-
+context_init = {
+                'pitch_url' : reverse_lazy('pitch'),
+                'mypitches_url': reverse_lazy('user_pitch'),
+                'otherpitches_url': reverse_lazy('other_pitch'),
+                'pitchedinpitches_url': reverse_lazy('pitchedin_pitch'),
+                'logout_url':reverse_lazy('logout'),
+                'login_url':reverse_lazy('login'),
+                'register_url':reverse_lazy('register'),
+                }
 
 def login_view(request):
     redirect_url = request.GET.get('red',None)
@@ -27,11 +36,8 @@ def login_view(request):
         loggedin = True
     else:
         loggedin = False
-    context={'headval':"Login",
-             'loggedin' : loggedin,
-            'login_url' : reverse('login'),
-            'register_url' : reverse('register'),
-            'logout_url' : reverse('logout')}
+    context= context_init.copy()
+    context.update({'headval':"Login"})
 
     return render(request, 'users/login.html', context)
 
@@ -154,3 +160,34 @@ def register_user(request):
         
         return HttpResponse("true")
 
+
+def view_profile(request, user_id):
+    if request.method == "GET":
+        if request.user.is_authenticated() and not request.user.is_superuser:
+            user = moder.User.objects.get(id = user_id)
+            my = True if request.user == user else False
+            pending_list = map(lambda x: x.pitch,VolunteeredFor.objects.all().filter(user = user))
+            accepted_list = map(lambda x: x.pitch, DevTeam.objects.all().filter(user = user))
+            detail = Detail.objects.filter(user_ref = user)[0]
+            prog_langs = detail.prog_langs.all()
+            pitches = Pitch.objects.filter(user = user)
+            display_pitch_urls = []
+            pendingUrls = []
+            acceptedUrls = []
+            for pitcher in pitches:
+                display_pitch_urls.append(reverse_lazy('display_pitch', args = (pitcher.id,)))
+            for pitcher in pending_list:
+                pendingUrls.append(reverse_lazy('display_pitch', args = (pitcher.id,)))
+            for pitcher in accepted_list:
+                acceptedUrls.append(reverse_lazy('display_pitch', args = (pitcher.id,)))
+
+            pitch_urls = zip(pitches, display_pitch_urls)
+            pending_urls = zip(pending_list, pendingUrls)
+            accepted_urls = zip(accepted_list, acceptedUrls)
+            context = context_init.copy()
+            context.update({'headval':'Profile','profile_url':reverse_lazy('profile', args = (request.user.id,)), 'loggedin':True, 'user':user,'my':my, 'detail':detail, 'pending_urls':pending_urls, 'accepted_urls':accepted_urls, 'prog_langs':prog_langs, 'pitch_urls':pitch_urls})
+            return render_to_response('users/profile.html', context)
+
+        else:
+            login_url = reverse_lazy('login')
+            return redirect(login_url+"?red=/users/profile/"+user_id)

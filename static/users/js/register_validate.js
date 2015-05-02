@@ -103,6 +103,7 @@ $(document).ready(function(){
 	  return regex.test(email);
 	}
 
+	var host = "http://"+window.location.hostname+":"+window.location.port;
 	var emailcheck = function(){$("#email").on('change', function(){
 		clear("#email");
 		var inputmail = $(this).val();
@@ -192,7 +193,7 @@ $(document).ready(function(){
 		$.post($urlpath+"register_user", $('#registerform').serializeArray(),  function(data){
 			if (data == "true"){
 				$("")
-				window.location.href = $urlpath+"registration_successful";
+				window.location.href = host+"/users/login";
 				return true;
 			}
 			

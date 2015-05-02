@@ -112,7 +112,6 @@ $(document).ready(function(){
 		$('#volunteerform').find("input").each(function(){
 			if ($(this).is(":checked")){
 				flag = true;
-				alert("adfsl");
 			}
 			});
 
@@ -133,5 +132,19 @@ $(document).ready(function(){
 
 	$('#okay_needed').click(function(){
 		$('#overlay-needed').fadeOut();
+	});
+
+	$('#commentform').on('submit', function(e){
+		e.preventDefault();
+		
+		if ($('#comment').val().trim().length ==0 ){
+			return false;
+		}
+
+		$.get(host+"/pitch/addcomment/?"+$('#commentform').serialize(),function(data){
+			$(data).hide().insertAfter($('#commentform').prev()).fadeIn(1000);
+			$('#comment').val("");
+			return true;
+		});
 	});
 });

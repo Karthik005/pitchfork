@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^logout$', views.logout_view, name='logout'),
     url(r'^login/$', views.login_view, name='login'),
     url(r'^login/?', views.login_view, name='login'),
+    url(r'^profile/(?P<user_id>([0-9])*)/', views.view_profile, name='profile'),
     #url(r'^login?red=([a-z]*)$', views.login_view, name='login'),
 )

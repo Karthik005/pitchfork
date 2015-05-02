@@ -76,4 +76,4 @@ class Comment(models.Model):
    	comment = models.TextField()
 
    	def __str__(self):
-   		return str(self.user)+", "+str(self.pitch)+", "+str(comment)
+   		return str(self.user)+", "+str(self.pitch)+", "+str(self.comment)

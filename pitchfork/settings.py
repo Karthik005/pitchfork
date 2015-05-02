@@ -65,6 +65,8 @@ ROOT_URLCONF = 'pitchfork.urls'
 
 WSGI_APPLICATION = 'pitchfork.wsgi.application'
 
+DEBUG_TOOLBAR_PATCH_SETTINGS = False 
+
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/pitch/mypitches/'
 

@@ -18,5 +18,5 @@ def show_user_pitch(context, pitch):
 @register.inclusion_tag('pitch/displayprocess.html',takes_context=True)
 def link_profile(context, renderuser, currentuser):
 	# profile_url = reverse('users')+"/profile/"+user.id
-	profile_url = "#"
+	profile_url = profile_url = reverse("profile", args = (renderuser.id,))
 	return {'profile_url':profile_url, 'renderuser': renderuser, 'my':context['my'], 'user':currentuser}

@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^otherpitches/$', views.other_pitch, name='other_pitch'),
     url(r'^pitchedinpitches/$', views.pitchedin_pitch, name='pitchedin_pitch'),
     url(r'^devteamadd/$', views.devteam_add, name='devteam_add'),
+    url(r'^addcomment/$', views.add_comment, name='add_comment'),
 
     url(r'^display_pitch/(?P<pitch_id>(.)*)/', views.display_pitch, name='display_pitch'),
 # (\w+)

@@ -78,11 +78,14 @@
 		          	<li class="dropdown">
 		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">View Pitches <span class="caret"></span></a>
 		              <ul class="dropdown-menu" role="menu">
-		                <li><a href="{{ mypitches_url|urlencode}}">My Pitches</a></li>
+		                <li><a href="{{ mypitches_url|urlencode}}">Mine</a></li>
 		                <li class="divider"></li>
-		                <li><a href="{{ otherpitches_url|urlencode}}">Other Pitches</a></li>
+		                <li><a href="{{ otherpitches_url|urlencode}}">Other</a></li>
+		                <li class="divider"></li>
+		                <li><a href="{{ pitchedinpitches_url|urlencode}}">Pitched-in</a></li>
 		              </ul>
 		            </li>
+		            <li><a href="{{profile_url|urlencode}}">Profile</a></li>
 		            <li><a href="{{ logout_url|urlencode }}">Logout</a></li>
 		          {% endif %}
 		          {% if not loggedin %}
