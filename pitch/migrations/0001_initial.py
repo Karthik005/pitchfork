@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('git_url', models.URLField()),
-                ('data', models.ForeignKey(to='pitch.Data')),
+                ('data', models.ForeignKey(to='pitch.Data', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 ('document', models.FileField(upload_to=pitch.models.upload_path, blank=True)),
                 ('dev_state', models.CharField(max_length=50)),
                 ('prog_langs', models.ManyToManyField(to='users.Programming_language')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
                 ('num_vol', models.PositiveIntegerField(default=0)),
                 ('dev_start_date', models.DateField()),
                 ('app_close_date', models.DateField()),
-                ('data', models.ForeignKey(to='pitch.Data')),
+                ('data', models.ForeignKey(to='pitch.Data', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='data',
             name='pitch',
-            field=models.ForeignKey(to='pitch.Pitch'),
+            field=models.ForeignKey(to='pitch.Pitch', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

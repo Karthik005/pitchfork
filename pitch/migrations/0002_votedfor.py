@@ -17,8 +17,8 @@ class Migration(migrations.Migration):
             name='VotedFor',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('pitch', models.ForeignKey(to='pitch.Pitch')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('pitch', models.ForeignKey(to='pitch.Pitch', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },

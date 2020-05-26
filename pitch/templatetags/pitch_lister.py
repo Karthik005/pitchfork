@@ -1,6 +1,6 @@
 from django import template
 from pitch import models as Mod
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from pitch.views import getRating
 
 

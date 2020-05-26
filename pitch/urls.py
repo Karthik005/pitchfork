@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from pitch import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.pitch_view, name='pitch'),
     url(r'^pitch_validate$', views.pitch_validate, name='pitch_validate'),
     url(r'^vote/$', views.vote_pitch, name='vote_pitch'),
@@ -16,7 +16,7 @@ urlpatterns = patterns('',
 
     url(r'^display_pitch/(?P<pitch_id>(.)*)/', views.display_pitch, name='display_pitch'),
 # (\w+)
-)
+]
 
     # '''
     # url(r'^login/login_validate$', views.login_validate, name='login_validate'),

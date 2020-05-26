@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
 from users import models as user_models
 from users import views as user_views
 from django.shortcuts import redirect
@@ -9,15 +9,13 @@ from django.contrib.auth import models as moder
 from django.core.exceptions import *
 from django.db import *
 from django.contrib.auth.hashers import *
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from pitch.models import *
 from django.db.models import Model
 from django.template import RequestContext
 import urllib
 import datetime
-from django.db.models.loading import cache as model_cache
-
 
 # Create your views here.
 
@@ -150,7 +148,7 @@ def user_pitch(request):
                         'loggedin':loggedin,
                         'profile_url':profile_url})
 
-            return render_to_response('pitch/mypitches.html', context)
+            return render(request, 'pitch/mypitches.html', context)
 
         else:
             login_url = reverse_lazy('login')
@@ -194,7 +192,7 @@ def other_pitch(request):
                         'loggedin':loggedin,
                         'profile_url':profile_url})
 
-            return render_to_response('pitch/mypitches.html', context)
+            return render(request, 'pitch/mypitches.html', context)
 
         else:
             login_url = reverse_lazy('login')
@@ -247,7 +245,7 @@ def display_pitch(request, pitch_id):
                         'loggedin':loggedin,
                         'profile_url':profile_url})
 
-            return render_to_response('pitch/displaypitch.html', context, context_instance=RequestContext(request))
+            return render(request, 'pitch/displaypitch.html', context, context_instance=RequestContext(request))
 
         else:
             login_url = reverse_lazy('login')
@@ -347,7 +345,7 @@ def pitchedin_pitch(request):
                         'loggedin':loggedin,
                         'profile_url':profile_url})
 
-            return render_to_response('pitch/mypitches.html', context)
+            return render(request, 'pitch/mypitches.html', context)
 
         else:
             login_url = reverse_lazy('login')
@@ -388,4 +386,4 @@ def add_comment(request):
         profile_url = reverse("profile", args = (user.id,))
         
         context = {'profile_url':profile_url, 'renderuser': user, 'my':True, 'user':user, 'comment':comment}
-        return render_to_response('pitch/displaycomment.html', context)
+        return render(request, 'pitch/displaycomment.html', context)

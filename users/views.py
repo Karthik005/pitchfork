@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from users.models import *
 from django.shortcuts import redirect
@@ -7,7 +7,7 @@ from django.contrib.auth import models as moder
 from django.core.exceptions import *
 from django.db import *
 from django.contrib.auth.hashers import *
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from pitch.models import *
 
 import datetime
@@ -63,7 +63,6 @@ def register_view(request):
     else:
         loggedin = False
     prog_lang_list = Programming_language.objects.all()
-    print reverse(login_view)
     context={'headval' : "Register",
               'prog_lang_list': prog_lang_list,
               'loggedin' : loggedin,
@@ -110,7 +109,7 @@ def register_validate(request):
 def register_user(request):
 
 
-    print request.POST.getlist('proglangs')
+    request.POST.getlist('proglangs')
 
             
     if request.method == "POST":
@@ -126,7 +125,6 @@ def register_user(request):
         exp=request.POST.get('experience', None)
     
         hashedpasswd = make_password(passwd, hasher='pbkdf2_sha256')
-        print hashedpasswd
         if not is_password_usable(hashedpasswd):
             return HttpResponse("dberror") 
 
@@ -143,8 +141,6 @@ def register_user(request):
         except DatabaseError:
             return HttpResponse("dberror")
 
-        print "reaches here"
-       
         new_detail = user.detail_set.create(
                     date_of_birth = dob, 
                     educational_qualifications = education,
@@ -186,7 +182,7 @@ def view_profile(request, user_id):
             accepted_urls = zip(accepted_list, acceptedUrls)
             context = context_init.copy()
             context.update({'headval':'Profile','profile_url':reverse_lazy('profile', args = (request.user.id,)), 'loggedin':True, 'user':user,'my':my, 'detail':detail, 'pending_urls':pending_urls, 'accepted_urls':accepted_urls, 'prog_langs':prog_langs, 'pitch_urls':pitch_urls})
-            return render_to_response('users/profile.html', context)
+            return render(None, 'users/profile.html', context)
 
         else:
             login_url = reverse_lazy('login')
