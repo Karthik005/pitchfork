@@ -45,7 +45,7 @@ def getRating(pitch):
 
 def pitch_view(request):
     if request.method == "GET":
-        if request.user.is_authenticated() and not request.user.is_superuser:
+        if request.user.is_authenticated and not request.user.is_superuser:
             loggedin = True
             profile_url=reverse('profile', args = (request.user.id,))
 
@@ -60,7 +60,7 @@ def pitch_view(request):
 
 
     elif request.method == "POST":
-        if request.user.is_authenticated() and not request.user.is_superuser:
+        if request.user.is_authenticated and not request.user.is_superuser:
             user = request.user
             title = request.POST.get('title', None)
             pitch_date=datetime.datetime.now().date()
@@ -113,7 +113,7 @@ def pitch_validate(request):
 
 def user_pitch(request):
     if request.method == "GET":
-        if request.user.is_authenticated() and not request.user.is_superuser:
+        if request.user.is_authenticated and not request.user.is_superuser:
             loggedin = True
             profile_url=reverse('profile', args = (request.user.id,))
             try:
@@ -157,7 +157,7 @@ def user_pitch(request):
 def other_pitch(request):
 
     if request.method == "GET":
-        if request.user.is_authenticated() and not request.user.is_superuser:
+        if request.user.is_authenticated and not request.user.is_superuser:
             loggedin = True
             profile_url=reverse('profile', args = (request.user.id,))
             try:
@@ -200,7 +200,7 @@ def other_pitch(request):
 
 def display_pitch(request, pitch_id):
     if request.method == "GET":
-        if request.user.is_authenticated() and not request.user.is_superuser:
+        if request.user.is_authenticated and not request.user.is_superuser:
             loggedin = True
             profile_url=reverse('profile', args = (request.user.id,))
             try:
@@ -245,7 +245,7 @@ def display_pitch(request, pitch_id):
                         'loggedin':loggedin,
                         'profile_url':profile_url})
 
-            return render(request, 'pitch/displaypitch.html', context, context_instance=RequestContext(request))
+            return render(request, 'pitch/displaypitch.html', context)
 
         else:
             login_url = reverse_lazy('login')
@@ -311,7 +311,7 @@ def pitch_in(request):
 
 def pitchedin_pitch(request):
     if request.method == "GET":
-        if request.user.is_authenticated() and not request.user.is_superuser:
+        if request.user.is_authenticated and not request.user.is_superuser:
             loggedin = True
             profile_url=reverse('profile', args = (request.user.id,))
             try:

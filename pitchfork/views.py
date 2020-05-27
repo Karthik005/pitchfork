@@ -26,7 +26,7 @@ context_init = {
                 'register_url':reverse_lazy('register'),
                 }
 def home(request): 
-    if request.user.is_authenticated() and not request.user.is_superuser:
+    if request.user.is_authenticated and not request.user.is_superuser:
         loggedin = True
         profile_url=reverse('profile', args = (request.user.id,))
     else:

@@ -128,3 +128,5 @@ STATICFILES_DIRS = (
 MEDIA_ROOT = '/home/karthik/Projects/pitchfork/media'
 
 MEDIA_URL = "media/"
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']

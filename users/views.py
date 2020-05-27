@@ -32,7 +32,7 @@ context_init = {
 
 def login_view(request):
     redirect_url = request.GET.get('red',None)
-    if request.user.is_authenticated() and not request.user.is_superuser:
+    if request.user.is_authenticated and not request.user.is_superuser:
         loggedin = True
     else:
         loggedin = False
@@ -58,7 +58,7 @@ def login_validate(request):
 
 def register_view(request):
 
-    if request.user.is_authenticated() and not request.user.is_superuser:
+    if request.user.is_authenticated and not request.user.is_superuser:
         loggedin = True
     else:
         loggedin = False
@@ -159,7 +159,7 @@ def register_user(request):
 
 def view_profile(request, user_id):
     if request.method == "GET":
-        if request.user.is_authenticated() and not request.user.is_superuser:
+        if request.user.is_authenticated and not request.user.is_superuser:
             user = moder.User.objects.get(id = user_id)
             my = True if request.user == user else False
             pending_list = map(lambda x: x.pitch,VolunteeredFor.objects.all().filter(user = user))
